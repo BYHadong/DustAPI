@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DustAPI from './component/DustAPI';
+import DustAPI from "./component/DustAPI"
 import {
   StyleSheet,
   Text,
@@ -12,35 +12,57 @@ class App extends Component {
     super();
     this.state = {
       sidoName: "서울",
-      mise: [],
+      pm10Value: [],
       stationName: [],
+      mise: [
+        this.state.pm10Value, 
+        this.state.stationName
+      ],
+      mise: [
+        {pm10Value: [], stationName: []}
+      ],
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     fetch("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?" +
-    "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
-    "&sidoName=" + this.state.sidoName + "&_returnType=json")
-    .then((res) => res.json())
-    .then((jsonData) => {
-      // alert("jsonData" + jsonData.map((data) => {
-      //   return data.mise
-      // }))
-      this.setState({
-        mise: jsonData.list.map((data) => { return data.pm10Value }),
-        stationName: jsonData.list.map((data) => {return data.stationName}),
+      "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
+      "&sidoName=" + this.state.sidoName + "&_returnType=json")
+      .then((res) => res.json())
+      .then((jsonData) => {
+        // alert("jsonData" + jsonData.map((data) => {
+        //   return data.mise
+        // }))
+        this.setState({
+          pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
+          stationName: jsonData.list.map((data) => { return data.stationName }),
+        })
       })
-    })
-    alert("this stste"+this.state.mise)
+  }
+
+  componentDidUpdate() {
+    fetch("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?" +
+      "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
+      "&sidoName=" + this.state.sidoName + "&_returnType=json")
+      .then((res) => res.json())
+      .then((jsonData) => {
+        // alert("jsonData" + jsonData.map((data) => {
+        //   return data.mise
+        // }))
+        this.setState({
+          pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
+          stationName: jsonData.list.map((data) => { return data.stationName }),
+        })
+      })
   }
 
   /*
-    "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?" +
-    "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
-    "&sidoName=" + this.state.sidoName + "&_returnType=json"
+  "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?" +
+  "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
+  "&sidoName=" + this.state.sidoName + "&_returnType=json"
   /*
   http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D&_returnType=json&sidoName=%EC%84%9C%EC%9A%B8
-   */
+  */
   render() {
     // %2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D
     // 서울, 부산, 대구, 인천, 광주, 대전, 울산, 경기, 강원, 충북, 충남, 전북, 전남, 경북, 경남, 제주, 세종
@@ -53,7 +75,12 @@ class App extends Component {
           <Picker.Item label="경기" value="경기" />
           <Picker.Itzm label="인천" value="인천" />
         </Picker>
-        <DustAPI pm10Value={this.state.mise} stationName={this.state.stationName}></DustAPI>
+        {alert(this.state.mise.map((tsts) => {return tsts.pm10Value + tsts.stationName}))}
+        <View>
+          {this.state.mise.map((miseData) => {return (
+            <DustAPI stationName={miseData.stationName} pm10Value={miseData.pm10Value}></DustAPI>
+          )})}
+        </View>
       </View>
     )
   }
