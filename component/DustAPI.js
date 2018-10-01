@@ -3,17 +3,21 @@ import { Text, View, StyleSheet, FlatList } from 'react-native'
 
 export default class DustAPI extends Component {
 
-    render() {
-        let users = this.props.userData.map((data) => {
-            return <Text style={styles.textstyle}>gitub User : {data}</Text>
+    render() { 
+        const mise = this.props.pm10Value.map((data) => {
+            return <Text style={styles.textstyle}>{data}</Text>
         })
-        alert("this is userData:"+ users)
+        const stationName = this.props.stationName.map((data) => {
+            return <Text style={styles.textstyle}>{data}</Text>
+        })
+        alert(mise)
         return (
             <View>
                 <FlatList
-                    data={users}
-                    renderItem={ ({item}) => <Text> {item} </Text>}
-                />
+                    data={mise}
+                    renderItem={({data}) => <Text style={styles.textstyle}>{data}</Text>}
+                    />
+                
             </View>
         )
     }   
