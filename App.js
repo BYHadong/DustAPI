@@ -5,22 +5,25 @@ import {
   Text,
   Picker,
   View,
+  SectionList,
+  ScrollView,
+  FlatList,
 } from 'react-native';
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       sidoName: "서울",
-      pm10Value: [],
-      stationName: [],
+      // pm10Value: [],
+      // stationName: [],
+      // mise: [
+      //   this.state.pm10Value, 
+      //   this.state.stationName
+      // ],
       mise: [
-        this.state.pm10Value, 
-        this.state.stationName
-      ],
-      mise: [
-        {pm10Value: [], stationName: []}
-      ],
+        { pm10Value: [], stationName: [] }
+      ]
     }
   }
 
@@ -34,8 +37,10 @@ class App extends Component {
         //   return data.mise
         // }))
         this.setState({
-          pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
-          stationName: jsonData.list.map((data) => { return data.stationName }),
+          mise: this.state.mise.concat({
+            pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
+            stationName: jsonData.list.map((data) => { return data.stationName })
+          })
         })
       })
   }
@@ -50,8 +55,13 @@ class App extends Component {
         //   return data.mise
         // }))
         this.setState({
-          pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
-          stationName: jsonData.list.map((data) => { return data.stationName }),
+          // pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
+          // stationName: jsonData.list.map((data) => { return data.stationName }),
+          // mise: [jsonData.list.map((data) => { return data.pm10Value }), jsonData.list.map((data) => { return data.stationName })]
+          mise: this.state.mise.concat({
+            pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
+            stationName: jsonData.list.map((data) => { return data.stationName })
+          })
         })
       })
   }
@@ -66,6 +76,8 @@ class App extends Component {
   render() {
     // %2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D
     // 서울, 부산, 대구, 인천, 광주, 대전, 울산, 경기, 강원, 충북, 충남, 전북, 전남, 경북, 경남, 제주, 세종
+    let title = this.state.mise.map((tsts, i) => { return tsts.stationName[i] })
+    let data = this.state.mise.map((tsts, i) => { return tsts.pm10Value[i] })
     return (
       <View>
         <Picker
@@ -75,15 +87,56 @@ class App extends Component {
           <Picker.Item label="경기" value="경기" />
           <Picker.Itzm label="인천" value="인천" />
         </Picker>
-        {alert(this.state.mise.map((tsts) => {return tsts.pm10Value + tsts.stationName}))}
-        <View>
-          {this.state.mise.map((miseData) => {return (
-            <DustAPI stationName={miseData.stationName} pm10Value={miseData.pm10Value}></DustAPI>
-          )})}
-        </View>
+
+        {alert(this.state.mise.map((tsts, i) => { return typeof tsts.pm10Value[i] + "   " + typeof tsts.stationName[i] }))}
+        
+        {/* <SectionList
+          sections={[{
+            title: title,
+            data: data
+          }]}
+          renderItem={({ item }) => <Text style={styles.textstyle}>{"먼지 농도 : " + item}</Text>}
+          renderSectionHeader={({ section }) => <Text style={styles.list}>{section.title}</Text>}
+          keyExtractor={(item, index) => index}
+        /> */}
+
+        {/* <FlatList
+          data={this.state.mise.map((tsts, i) => { return tsts.stationName[i] })}
+          renderItem={({ item }) => <Text style={styles.list}>{item}</Text>}>
+        </FlatList>
+        <FlatList
+          data={this.state.mise.map((tsts, i) => { return tsts.pm10Value[i] })}
+          renderItem={({ item }) => <Text style={styles.textstyle}>미세먼지 농도 : {item}</Text>}>
+        </FlatList> */}
+
+
+        <ScrollView>
+          {this.state.mise.map((miseData, index) => {
+            return (
+              <DustAPI stationName={miseData.stationName[index]} pm10Value={miseData.pm10Value[index]}>
+                {alert("asdf : " + typeof miseData.pm10Value[index] + "   asdf : " + typeof miseData.stationName[index] + " index : " + index)}            
+              </DustAPI>
+            )
+          })}
+        </ScrollView>
+
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  textstyle: {
+    display: "flex",
+    fontSize: 20,
+    flex: 1,
+  },
+  list: {
+    display: "flex",
+    fontSize: 20,
+    flex: 1,
+    backgroundColor: "gray"
+  },
+})
 
 export default App;

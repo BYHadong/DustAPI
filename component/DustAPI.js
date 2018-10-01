@@ -1,16 +1,25 @@
 import React, { Component } from 'react'
-import { Text, View, SectionList, StyleSheet } from 'react-native'
+import { Text, View, SectionList, StyleSheet, FlatList } from 'react-native'
 
 export default class DustAPI extends Component {
     render() {
         return (
             <View>
                 <SectionList
-                    sections={[{ title: this.props.stationName, data: this.props.mise }]}
-                    renderItem={({ item }) => <Text style={styles.textstyle}>{item}</Text>}
+                    sections={[{ title: this.props.stationName, data: this.props.pm10Value }]}
+                    renderItem={({ item }) => <Text style={styles.textstyle}>{"먼지 농도 : "+item}</Text>}
                     renderSectionHeader={({ section }) => <Text style={styles.list}>{section.title}</Text>}
-                    keyExtractor={(item, index) => index}
-                />
+                    keyExtractor={(item, index) => index}>
+                </SectionList>
+                {/* <FlatList
+                    data={this.props.stationName}
+                    renderItem={({ item }) => <Text style={styles.list}>{item}</Text>}>
+                </FlatList>
+                <FlatList
+                    data={this.props.pm10Value}
+                    renderItem={({ item }) => <Text style={styles.textstyle}>미세먼지 농도 : {item}</Text>}>
+                </FlatList> */}
+                {alert("pm10 : " + typeof this.props.pm10Value + "   name : " + typeof this.props.stationName)}
             </View>
         )
     }
