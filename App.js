@@ -28,11 +28,17 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?" +
-      "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
-      "&sidoName=" + this.state.sidoName + "&_returnType=json")
-      .then((res) => res.json())
-      .then((jsonData) => {
+    const ApiUrl = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?" +
+    "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
+    "&sidoName=" + encodeURI(this.state.sidoName) + "&_returnType=json";
+
+    fetch(ApiUrl)
+      .then(res => res.json())
+      .then(jsonData => {
+        // alert(JSON.stringify(jsonData.list));
+        // alert(jsonData.list.map((data) => { return data.pm10Value }))
+        // alert(jsonData.list.map((data) => { return data.stationName }))
+        // console.log(jsonData);
         // alert("jsonData" + jsonData.map((data) => {
         //   return data.mise
         // }))
@@ -41,29 +47,30 @@ class App extends Component {
             pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
             stationName: jsonData.list.map((data) => { return data.stationName })
           })
-        })
+        }, ()=>alert(JSON.stringify(this.state.mise)))
       })
+      .catch((err) => alert(err))
   }
 
   componentDidUpdate() {
-    fetch("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?" +
-      "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
-      "&sidoName=" + this.state.sidoName + "&_returnType=json")
-      .then((res) => res.json())
-      .then((jsonData) => {
-        // alert("jsonData" + jsonData.map((data) => {
-        //   return data.mise
-        // }))
-        this.setState({
-          // pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
-          // stationName: jsonData.list.map((data) => { return data.stationName }),
-          // mise: [jsonData.list.map((data) => { return data.pm10Value }), jsonData.list.map((data) => { return data.stationName })]
-          mise: this.state.mise.concat({
-            pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
-            stationName: jsonData.list.map((data) => { return data.stationName })
-          })
-        })
-      })
+    // fetch("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?" +
+    //   "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
+    //   "&sidoName=" + this.state.sidoName + "&_returnType=json")
+    //   .then((res) => res.json())
+    //   .then((jsonData) => {
+    //     // alert("jsonData" + jsonData.map((data) => {
+    //     //   return data.mise
+    //     // }))
+    //     this.setState({
+    //       // pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
+    //       // stationName: jsonData.list.map((data) => { return data.stationName }),
+    //       // mise: [jsonData.list.map((data) => { return data.pm10Value }), jsonData.list.map((data) => { return data.stationName })]
+    //       mise: this.state.mise.concat({
+    //         pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
+    //         stationName: jsonData.list.map((data) => { return data.stationName })
+    //       })
+    //     })
+    //   })
   }
 
   /*
@@ -88,7 +95,7 @@ class App extends Component {
           <Picker.Itzm label="인천" value="인천" />
         </Picker>
 
-        {alert(this.state.mise.map((tsts, i) => { return typeof tsts.pm10Value[i] + "   " + typeof tsts.stationName[i] }))}
+        {/* {alert(this.state.mise.map((tsts, i) => { return typeof tsts.pm10Value[i] + "   " + typeof tsts.stationName[i] }))} */}
         
         {/* <SectionList
           sections={[{
@@ -110,7 +117,7 @@ class App extends Component {
         </FlatList> */}
 
 
-        <ScrollView>
+        {/* <ScrollView>
           {this.state.mise.map((miseData, index) => {
             return (
               <DustAPI stationName={miseData.stationName[index]} pm10Value={miseData.pm10Value[index]}>
@@ -118,7 +125,7 @@ class App extends Component {
               </DustAPI>
             )
           })}
-        </ScrollView>
+        </ScrollView> */}
 
       </View>
     )
