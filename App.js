@@ -64,10 +64,8 @@ class App extends Component {
   http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D&_returnType=json&sidoName=%EC%84%9C%EC%9A%B8
   */
   render() {
-    // %2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D
-    // 서울, 부산, 대구, 인천, 광주, 대전, 울산, 경기, 강원, 충북, 충남, 전북, 전남, 경북, 경남, 제주, 세종
-    let title = this.state.mise.map((tsts, i) => { return tsts.stationName[i] })
-    let data = this.state.mise.map((tsts, i) => { return tsts.pm10Value[i] })
+    let title = this.state.mise.map((item, i) => item.stationName)
+    let data = this.state.mise.map((item, i) => item.pm10Value)
     return (
       <View>
         <Picker
