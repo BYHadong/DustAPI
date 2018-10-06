@@ -35,25 +35,28 @@ class App extends Component {
       .catch((err) => alert(err))
   }
 
-  componentDidUpdate() {
-    // fetch("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?" +
-    //   "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
-    //   "&sidoName=" + this.state.sidoName + "&_returnType=json")
-    //   .then((res) => res.json())
-    //   .then((jsonData) => {
-    //     // alert("jsonData" + jsonData.map((data) => {
-    //     //   return data.mise
-    //     // }))
-    //     this.setState({
-    //       // pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
-    //       // stationName: jsonData.list.map((data) => { return data.stationName }),
-    //       // mise: [jsonData.list.map((data) => { return data.pm10Value }), jsonData.list.map((data) => { return data.stationName })]
-    //       mise: this.state.mise.concat({
-    //         pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
-    //         stationName: jsonData.list.map((data) => { return data.stationName })
-    //       })
-    //     })
-    //   })
+  componentDidUpdate(prevProps, prevState) {
+    const {sidoName} = this.state;
+
+    if (prevState.sidoName !== sidoName) {
+      const ApiUrl = "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?" +
+      "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
+      "&sidoName=" + encodeURI(sidoName) + "&_returnType=json";
+
+      fetch(ApiUrl)
+      .then(res => res.json())
+      .then(jsonData => {
+        this.setState({
+          mise: jsonData.list.map((data) => {
+            return {
+              pm10Value: data.pm10Value,
+              stationName: data.stationName
+            }
+          })
+        })
+      })
+      .catch((err) => alert(err))
+    }
   }
 
   /*
@@ -70,7 +73,8 @@ class App extends Component {
       <View>
         <Picker
           selectedValue={this.state.sidoName}
-          onValueChange={(itemValue, itemIndex) => this.setState({ sidoName: itemValue })}>
+          onValueChange={(itemValue, itemIndex) => this.setState({ sidoName: itemValue })}
+        >
           <Picker.Item label="서울" value="서울" />
           <Picker.Item label="경기" value="경기" />
           <Picker.Itzm label="인천" value="인천" />
