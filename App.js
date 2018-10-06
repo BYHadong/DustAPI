@@ -35,19 +35,14 @@ class App extends Component {
     fetch(ApiUrl)
       .then(res => res.json())
       .then(jsonData => {
-        // alert(JSON.stringify(jsonData.list));
-        // alert(jsonData.list.map((data) => { return data.pm10Value }))
-        // alert(jsonData.list.map((data) => { return data.stationName }))
-        // console.log(jsonData);
-        // alert("jsonData" + jsonData.map((data) => {
-        //   return data.mise
-        // }))
         this.setState({
-          mise: this.state.mise.concat({
-            pm10Value: jsonData.list.map((data) => { return data.pm10Value }),
-            stationName: jsonData.list.map((data) => { return data.stationName })
+          mise: jsonData.list.map((data) => {
+            return {
+              pm10Value: data.pm10Value,
+              stationName: data.stationName
+            }
           })
-        }, ()=>alert(JSON.stringify(this.state.mise)))
+        })
       })
       .catch((err) => alert(err))
   }
