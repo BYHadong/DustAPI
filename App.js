@@ -106,15 +106,16 @@ class App extends Component {
         </FlatList> */}
 
 
-        {/* <ScrollView>
+        <ScrollView>
           {this.state.mise.map((miseData, index) => {
             return (
-              <DustAPI stationName={miseData.stationName[index]} pm10Value={miseData.pm10Value[index]}>
-                {alert("asdf : " + typeof miseData.pm10Value[index] + "   asdf : " + typeof miseData.stationName[index] + " index : " + index)}            
-              </DustAPI>
+              <Text>{miseData['stationName']}</Text>
+              // <DustAPI stationName={miseData.stationName[index]} pm10Value={miseData.pm10Value[index]}>
+              //   {alert("asdf : " + typeof miseData.pm10Value[index] + "   asdf : " + typeof miseData.stationName[index] + " index : " + index)}            
+              // </DustAPI>
             )
           })}
-        </ScrollView> */}
+        </ScrollView>
 
       </View>
     )
