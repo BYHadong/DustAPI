@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import DustAPI from "./component/DustAPI"
 import {
   StyleSheet,
-  Text,
-  Picker,
   View,
-  SectionList,
-  ScrollView,
-  FlatList,
+  Picker,
 } from 'react-native';
 
 class App extends Component {
@@ -15,15 +11,7 @@ class App extends Component {
     super(props);
     this.state = {
       sidoName: "서울",
-      // pm10Value: [],
-      // stationName: [],
-      // mise: [
-      //   this.state.pm10Value, 
-      //   this.state.stationName
-      // ],
-      mise: [
-        { pm10Value: [], stationName: [] }
-      ]
+      mise: []
     }
   }
 
