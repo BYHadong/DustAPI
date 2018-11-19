@@ -60,14 +60,7 @@ class App extends Component {
       .catch((err) => alert(err))
     }
   }
-
-  /*
-  "http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?" +
-  "ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D" +
-  "&sidoName=" + this.state.sidoName + "&_returnType=json"
-  /*
-  http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?ServiceKey=%2BBmtkr7EQF%2B1UeRAHdORtzXF%2BNVqw%2B2vZR4RdlIRKVXybmj9CU6NKdzJXthecSIwYxyMF2MJWWpMGkTQS8MrLA%3D%3D&_returnType=json&sidoName=%EC%84%9C%EC%9A%B8
-  */
+  
   render() {
     const {mise} = this.state;
     let title = this.state.mise.map((item, i) => item.stationName)
@@ -84,35 +77,10 @@ class App extends Component {
           <Picker.Item label="인천" value="인천" />
         </Picker>
 
-        {/* {alert(this.state.mise.map((tsts, i) => { return typeof tsts.pm10Value[i] + "   " + typeof tsts.stationName[i] }))} */}
-        
-        {/* <SectionList
-          sections={[{
-            title: title,
-            data: data
-          }]}
-          renderItem={({ item }) => <Text style={styles.textstyle}>{"먼지 농도 : " + item}</Text>}
-          renderSectionHeader={({ section }) => <Text style={styles.list}>{section.title}</Text>}
-          keyExtractor={(item, index) => index}
-        /> */}
-
-        {/* <FlatList
-          data={this.state.mise.map((tsts, i) => { return tsts.stationName[i] })}
-          renderItem={({ item }) => <Text style={styles.list}>{item}</Text>}>
-        </FlatList>
-        <FlatList
-          data={this.state.mise.map((tsts, i) => { return tsts.pm10Value[i] })}
-          renderItem={({ item }) => <Text style={styles.textstyle}>미세먼지 농도 : {item}</Text>}>
-        </FlatList> */}
-
-
         <ScrollView>
           {this.state.mise.map((miseData, index) => {
             return (
-              <Text>{miseData['stationName']}</Text>
-              // <DustAPI stationName={miseData.stationName[index]} pm10Value={miseData.pm10Value[index]}>
-              //   {alert("asdf : " + typeof miseData.pm10Value[index] + "   asdf : " + typeof miseData.stationName[index] + " index : " + index)}            
-              // </DustAPI>
+              <Text>{miseData['stationName']}</Text>              
             )
           })}
         </ScrollView>
