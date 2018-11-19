@@ -11,14 +11,6 @@ export default class DustAPI extends Component {
                     renderSectionHeader={({ section }) => <Text style={styles.list}>{section.title}</Text>}
                     keyExtractor={(item, index) => index}>
                 </SectionList>
-                {/* <FlatList
-                    data={this.props.stationName}
-                    renderItem={({ item }) => <Text style={styles.list}>{item}</Text>}>
-                </FlatList>
-                <FlatList
-                    data={this.props.pm10Value}
-                    renderItem={({ item }) => <Text style={styles.textstyle}>미세먼지 농도 : {item}</Text>}>
-                </FlatList> */}
                 {alert("pm10 : " + typeof this.props.pm10Value + "   name : " + typeof this.props.stationName)}
             </View>
         )
